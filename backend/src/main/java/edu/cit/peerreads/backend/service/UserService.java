@@ -59,11 +59,48 @@ public class UserService {
             throw new BadRequestException("Email already in use");
         }
 
-        user.setFullName(request.getFullName());
-        user.setEmail(request.getEmail().toLowerCase());
-        user.setLocation(request.getLocation());
-        user.setBio(request.getBio());
-        user.setProfilePictureUrl(request.getProfilePictureUrl());
+        // Sanitize and truncate fields to prevent data truncation errors
+        String fullName = request.getFullName() != null 
+            ? request.getFullName().trim() 
+            : "";
+        if (fullName.length() > 255) {
+            fullName = fullName.substring(0, 255);
+        }
+
+        String email = request.getEmail() != null 
+            ? request.getEmail().trim().toLowerCase() 
+            : "";
+        if (email.length() > 255) {
+            email = email.substring(0, 255);
+        }
+
+        String location = request.getLocation() != null 
+            ? request.getLocation().trim() 
+            : null;
+        if (location != null && location.length() > 255) {
+            location = location.substring(0, 255);
+        }
+
+        String bio = request.getBio() != null 
+            ? request.getBio().trim() 
+            : null;
+        if (bio != null && bio.length() > 1024) {
+            bio = bio.substring(0, 1024);
+        }
+
+        String profilePictureUrl = request.getProfilePictureUrl() != null 
+            ? request.getProfilePictureUrl().trim() 
+            : null;
+        // MEDIUMTEXT can hold up to 16MB, but we'll limit to 10MB for safety
+        if (profilePictureUrl != null && profilePictureUrl.length() > 10485760) {
+            throw new BadRequestException("Profile picture URL is too large. Please use a smaller image.");
+        }
+
+        user.setFullName(fullName);
+        user.setEmail(email);
+        user.setLocation(location);
+        user.setBio(bio);
+        user.setProfilePictureUrl(profilePictureUrl);
 
         userRepository.save(user);
         return toDto(user);

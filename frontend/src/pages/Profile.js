@@ -209,7 +209,58 @@ function Profile() {
     }
   };
 
-  const handleFileChange = (e) => {
+  const compressImage = (file, maxWidth = 300, maxHeight = 300, quality = 0.7) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+
+          // Calculate new dimensions
+          if (width > height) {
+            if (width > maxWidth) {
+              height = Math.round((height * maxWidth) / width);
+              width = maxWidth;
+            }
+          } else {
+            if (height > maxHeight) {
+              width = Math.round((width * maxHeight) / height);
+              height = maxHeight;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // Compress to reasonable size (aim for ~500KB base64, which is ~375KB actual image)
+          const tryCompress = (currentQuality) => {
+            const dataUrl = canvas.toDataURL('image/jpeg', currentQuality);
+            // Limit to ~500KB base64 to keep images reasonable but allow larger than before
+            if (dataUrl.length <= 500000 || currentQuality <= 0.2) {
+              resolve(dataUrl);
+            } else {
+              // Reduce quality and try again
+              tryCompress(currentQuality - 0.1);
+            }
+          };
+
+          tryCompress(quality);
+        };
+        img.onerror = () => reject(new Error('Failed to load image'));
+        img.src = e.target.result;
+      };
+      reader.onerror = () => reject(new Error('Failed to read file'));
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
       if (file.size > 5 * 1024 * 1024) {
@@ -222,15 +273,18 @@ function Profile() {
         return;
       }
 
-      const reader = new FileReader();
-      reader.onloadend = () => {
+      try {
+        // Compress and resize image before converting to base64
+        const compressedDataUrl = await compressImage(file);
         setProfileData(prevData => ({
           ...prevData,
-          profilePictureUrl: reader.result
+          profilePictureUrl: compressedDataUrl
         }));
         showToastNotification("Profile picture updated!", "success");
-      };
-      reader.readAsDataURL(file);
+      } catch (error) {
+        console.error('Error processing image:', error);
+        showToastNotification('Error processing image. Please try another image.', "error");
+      }
     }
   };
 

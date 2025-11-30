@@ -34,13 +34,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 255)
     private String fullName;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 255)
     private String email;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 255)
     private String username;
 
     @Column(nullable = false)
@@ -49,11 +49,13 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role = Role.USER;
 
+    @Column(length = 255)
     private String location;
 
     @Column(length = 1024)
     private String bio;
 
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String profilePictureUrl;
 
     private LocalDate joinedDate;
