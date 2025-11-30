@@ -59,9 +59,6 @@ function Login() {
     }
   };
   
-  const handleGoogleLogin = () => {
-      showToastNotification("Google login feature coming soon!", "info");
-  };
 
   return (
     <div className="centered-page-wrapper">
@@ -138,24 +135,6 @@ function Login() {
                 className="primary-btn"
               >
                 {loading ? "Logging In..." : "Log In"}
-              </button>
-
-              <div className="auth-divider">
-                <span>or continue with</span>
-              </div>
-
-              <button
-                type="button"
-                className="google-login-btn"
-                onClick={handleGoogleLogin}
-                disabled={loading}
-              >
-                <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"
-                  alt="Google logo"
-                  style={{ width: "18px", height: "18px" }}
-                />
-                Google
               </button>
             </div>
 
