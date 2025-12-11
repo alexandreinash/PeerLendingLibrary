@@ -55,7 +55,7 @@ public class User {
     @Column(length = 1024)
     private String bio;
 
-    @Column(columnDefinition = "MEDIUMTEXT")
+    @Column(columnDefinition = "TEXT")
     private String profilePictureUrl;
 
     private LocalDate joinedDate;

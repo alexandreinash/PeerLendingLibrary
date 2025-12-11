@@ -11,17 +11,11 @@ services:
       - key: SPRING_PROFILES_ACTIVE
         value: production
       - key: SPRING_DATASOURCE_URL
-        fromDatabase:
-          name: peerlending-db
-          property: connectionString
+        value: jdbc:postgresql://aws-1-ap-southeast-2.pooler.supabase.com:5432/postgres?sslmode=require&ssl=true
       - key: SPRING_DATASOURCE_USERNAME
-        fromDatabase:
-          name: peerlending-db
-          property: user
+        value: postgres.ztetplqgjemxswqksnhm
       - key: SPRING_DATASOURCE_PASSWORD
-        fromDatabase:
-          name: peerlending-db
-          property: password
+        value: Alexandrei.1626
       - key: APP_JWT_SECRET
         generateValue: true
       - key: APP_JWT_EXPIRATION_MS
@@ -35,11 +29,12 @@ services:
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: ./frontend/build
 
-databases:
-  # PostgreSQL Database
-  - name: peerlending-db
-    databaseName: peerlending
-    user: peerlending_user
-    plan: free
-    region: oregon
+# Database section removed - using Supabase instead
+# databases:
+#   # PostgreSQL Database
+#   - name: peerlending-db
+#     databaseName: peerlending
+#     user: peerlending_user
+#     plan: free
+#     region: oregon
 

@@ -57,7 +57,7 @@ public class Book {
     private LocalDate dateReturn;
     private LocalDate dateAdded;
     
-    @Column(columnDefinition = "MEDIUMTEXT")
+    @Column(columnDefinition = "TEXT")
     private String imageUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)

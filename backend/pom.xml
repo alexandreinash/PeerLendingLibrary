@@ -60,6 +60,16 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
+		<!-- MySQL Database - Commented out, using Supabase PostgreSQL instead -->
+		<!--
+		<dependency>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		-->
+		
+		<!-- Supabase PostgreSQL Database -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
