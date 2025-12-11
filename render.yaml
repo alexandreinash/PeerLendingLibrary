@@ -2,7 +2,6 @@ services:
   # Backend Spring Boot Service
   - type: web
     name: peerlending-backend
-    env: java
     region: oregon
     plan: free
     buildCommand: cd backend && ./mvnw clean package -DskipTests
@@ -32,7 +31,6 @@ services:
   - type: web
     name: peerlending-frontend
     env: static
-    region: oregon
     plan: free
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: ./frontend/build
