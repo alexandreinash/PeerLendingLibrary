@@ -14,9 +14,9 @@ public class BackendApplication {
 		// Explicitly set Supabase database connection properties
 		// This runs BEFORE Spring Boot initializes, ensuring properties are available
 		
-		// Default Supabase connection values (using direct connection for transaction support)
-		// Direct connection URL format: db.{project-ref}.supabase.co
-		String defaultUrl = "jdbc:postgresql://db.ztetplqgjemxswqksnhm.supabase.co:5432/postgres?sslmode=require";
+		// Default Supabase connection values (using TRANSACTION pooler on port 6543)
+		// Transaction pooler supports transactions, session pooler (port 5432) does not
+		String defaultUrl = "jdbc:postgresql://aws-1-ap-southeast-2.pooler.supabase.com:6543/postgres?sslmode=require";
 		String defaultUsername = "postgres.ztetplqgjemxswqksnhm";
 		String defaultPassword = "Alexandrei.1626";
 		
