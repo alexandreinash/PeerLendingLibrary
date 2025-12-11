@@ -14,8 +14,8 @@ public class BackendApplication {
 		// Explicitly set Supabase database connection properties
 		// This runs BEFORE Spring Boot initializes, ensuring properties are available
 		
-		// Default Supabase connection values
-		String defaultUrl = "jdbc:postgresql://aws-1-ap-southeast-2.pooler.supabase.com:5432/postgres?sslmode=require&ssl=true";
+		// Default Supabase connection values (using direct connection for better transaction support)
+		String defaultUrl = "jdbc:postgresql://aws-1-ap-southeast-2.supabase.co:5432/postgres?sslmode=require";
 		String defaultUsername = "postgres.ztetplqgjemxswqksnhm";
 		String defaultPassword = "Alexandrei.1626";
 		
