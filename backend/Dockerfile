@@ -30,6 +30,6 @@ COPY --from=build /app/target/backend-0.0.1-SNAPSHOT.jar app.jar
 # Expose port (Render will set PORT env variable)
 EXPOSE 8080
 
-# Run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Run the application with optimized JVM settings for faster startup
+ENTRYPOINT ["java", "-XX:+UseContainerSupport", "-XX:MaxRAMPercentage=75.0", "-Djava.security.egd=file:/dev/./urandom", "-jar", "app.jar"]
 
