@@ -1,8 +1,8 @@
 # Use OpenJDK 21 as base image
 FROM eclipse-temurin:21-jdk-alpine AS build
 
-# Install Maven
-RUN apk add --no-cache maven
+# Install Maven and required tools
+RUN apk add --no-cache maven bash
 
 # Set working directory
 WORKDIR /app
