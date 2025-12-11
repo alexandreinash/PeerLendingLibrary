@@ -7,6 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.cit.peerreads.backend.entity.Book;
 import edu.cit.peerreads.backend.entity.BookStatus;
@@ -21,6 +22,7 @@ public class DataInitializer {
     private static final String DEFAULT_ADMIN_EMAIL = "admin@peerreads.local";
 
     @Bean
+    @Transactional
     CommandLineRunner seedAdmin(UserRepository userRepository, BookRepository bookRepository,
             PasswordEncoder passwordEncoder) {
         return args -> {
