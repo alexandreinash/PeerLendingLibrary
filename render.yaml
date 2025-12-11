@@ -11,7 +11,7 @@ services:
       - key: SPRING_PROFILES_ACTIVE
         value: production
       - key: SPRING_DATASOURCE_URL
-        value: jdbc:postgresql://aws-1-ap-southeast-2.supabase.co:5432/postgres?sslmode=require
+        value: jdbc:postgresql://db.ztetplqgjemxswqksnhm.supabase.co:5432/postgres?sslmode=require
       - key: SPRING_DATASOURCE_USERNAME
         value: postgres.ztetplqgjemxswqksnhm
       - key: SPRING_DATASOURCE_PASSWORD
