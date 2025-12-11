@@ -29,11 +29,19 @@ services:
     healthCheckPath: /actuator/health
 
   # Frontend React Static Site
-  - type: web
+  - type: static
     name: peerlending-frontend
-    env: static
+    region: oregon
+    plan: free
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: ./frontend/build
+    envVars:
+      - key: REACT_APP_API_BASE
+        fromService:
+          name: peerlending-backend
+          type: web
+          property: host
+          format: https://${host}/api
 
 databases:
   # PostgreSQL Database
