@@ -1,2 +1,2 @@
-org.springframework.context.ApplicationListener=edu.cit.peerreads.backend.config.DataSourceConfig
+org.springframework.boot.env.EnvironmentPostProcessor=edu.cit.peerreads.backend.config.DataSourcePostProcessor
 
