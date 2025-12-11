@@ -31,6 +31,12 @@ public class DatabaseFix implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+        // Skip database fixes for PostgreSQL (this class is MySQL-specific)
+        if (datasourceUrl != null && datasourceUrl.contains("postgresql")) {
+            log.info("Skipping MySQL-specific database fixes (using PostgreSQL)");
+            return;
+        }
+        
         try {
             // Extract database name from URL
             String dbUrl = datasourceUrl;
