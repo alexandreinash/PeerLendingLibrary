@@ -1,0 +1,53 @@
+services:
+  # Backend Spring Boot Service
+  - type: web
+    name: peerlending-backend
+    env: java
+    region: oregon
+    plan: free
+    buildCommand: cd backend && ./mvnw clean package -DskipTests
+    startCommand: cd backend && java -jar target/backend-0.0.1-SNAPSHOT.jar
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: production
+      - key: SPRING_DATASOURCE_URL
+        fromDatabase:
+          name: peerlending-db
+          property: connectionString
+      - key: SPRING_DATASOURCE_USERNAME
+        fromDatabase:
+          name: peerlending-db
+          property: user
+      - key: SPRING_DATASOURCE_PASSWORD
+        fromDatabase:
+          name: peerlending-db
+          property: password
+      - key: APP_JWT_SECRET
+        generateValue: true
+      - key: APP_JWT_EXPIRATION_MS
+        value: 86400000
+    healthCheckPath: /actuator/health
+
+  # Frontend React Static Site
+  - type: static
+    name: peerlending-frontend
+    region: oregon
+    plan: free
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: ./frontend/build
+    envVars:
+      - key: REACT_APP_API_BASE
+        fromService:
+          name: peerlending-backend
+          type: web
+          property: host
+          format: https://${host}/api
+
+databases:
+  # MySQL Database
+  - name: peerlending-db
+    databaseName: peerlending
+    user: peerlending_user
+    plan: free
+    region: oregon
+
